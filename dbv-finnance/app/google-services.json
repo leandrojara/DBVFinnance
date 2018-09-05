@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "598911390861",
+    "firebase_url": "https://dbv-finnance.firebaseio.com",
+    "project_id": "dbv-finnance",
+    "storage_bucket": "dbv-finnance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598911390861:android:96e33882c7e8fa7b",
+        "android_client_info": {
+          "package_name": "br.com.leandrojara.dbv_finnance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598911390861-4hqheodjr111um07ecv4dq4mnltma6r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.leandrojara.dbv_finnance",
+            "certificate_hash": "7cdc4432df32bb34b619f96688cc5d7c7a84b314"
+          }
+        },
+        {
+          "client_id": "598911390861-vgobpfa51jhe0sougd9fov4m5pqnbtk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3wRbzoWnQm_Q75GI_DzGfXy8qvwwFknk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598911390861-vgobpfa51jhe0sougd9fov4m5pqnbtk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
