@@ -42,14 +42,6 @@ public class CadastroUsuarioActivity extends AppCompatActivity implements View.O
         mAuth = FirebaseAuth.getInstance();
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.field_retype_password) {
-            createAccount();
-        }
-    }
-
     private void createAccount() {
         if (!validateForm()) {
             return;
@@ -122,5 +114,13 @@ public class CadastroUsuarioActivity extends AppCompatActivity implements View.O
         }
 
         return valid;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.button_cadastrar) {
+            createAccount();
+        }
     }
 }
