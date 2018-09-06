@@ -89,8 +89,11 @@ public abstract class EntityBase implements Persistable {
                                 }
                                 //aponta para a referencia
                                 persistentList.add(((EntityBase) object).getReference());
+                            } else if (object instanceof Enum) {
+                                //se for uma lista de Enums
+                                persistentList.add(object.toString());
                             } else {
-                                //se não for uma lista de EntityBase
+                                //se não for uma lista de EntityBase nem de Enum
                                 persistentList.add(object);
                             }
                         }

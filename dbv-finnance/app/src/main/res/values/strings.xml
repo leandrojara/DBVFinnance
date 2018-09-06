@@ -10,4 +10,16 @@
     <string name="desc_firebase_lockup">Logo e nome do aplicativo</string>
     <string name="emailpassword_title_text">DBV Finnance</string>
     <string name="title_cadastro_usuario">Cadastro de Usuário</string>
+    <string name="email_nao_verificado">Verifique seu email para ativar seu cadastro</string>
+    <string name="esqueci_minha_senha">Esqueci minha senha</string>
+    <string name="erro_enviar_email">Ocorreu um erro ao enviar o email</string>
+    <string name="enviado_email_para">Foi enviado um email para </string>
+    <string name="obrigatorio">Obrigatório</string>
+    <string name="usuario_ja_cadastrado">O usuário já foi cadastrado anteriormente no sistema.</string>
+    <string name="senha_invalida">Insira uma senha de no mínimo 8 caracteres contendo letras e números.</string>
+    <string name="email_senha_invalidos">Email e/ou senha inválidos.</string>
+    <string name="email_invalido">O email digitado é inválido.</string>
+    <string name="falha_autencicacao">Autenticação falhou.</string>
+    <string name="senha_nao_confere">Senhas não conferem</string>
+    <string name="cadastro_realizado">Cadastro realizado com sucesso</string>
 </resources>

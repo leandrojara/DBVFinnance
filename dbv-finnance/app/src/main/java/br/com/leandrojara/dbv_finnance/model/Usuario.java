@@ -9,7 +9,7 @@ public class Usuario extends EntityBase {
 
     private String nome;
     private String email;
-    private Role role;
+    private List<Role> roles;
     private List<Desbravador> desbravadores;
 
     public String getNome() {
@@ -28,12 +28,12 @@ public class Usuario extends EntityBase {
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Desbravador> getDesbravadores() {
