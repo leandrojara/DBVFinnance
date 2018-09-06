@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">dbv-finnance</string>
+    <string name="app_name">DBV Finnance</string>
+
+    <string name="sign_in">Entrar</string>
+    <string name="create_account">Criar Cadastro</string>
+    <string name="hint_name">Nome Completo</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Senha</string>
+    <string name="hint_retype_password">Repita a senha</string>
+    <string name="desc_firebase_lockup">Logo e nome do aplicativo</string>
+    <string name="emailpassword_title_text">DBV Finnance</string>
+    <string name="title_cadastro_usuario">Cadastro de Usuário</string>
 </resources>
