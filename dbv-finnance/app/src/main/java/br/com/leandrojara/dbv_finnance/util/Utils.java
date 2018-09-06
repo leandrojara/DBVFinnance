@@ -3,9 +3,12 @@ package br.com.leandrojara.dbv_finnance.util;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+import br.com.leandrojara.dbv_finnance.model.Usuario;
+
 public class Utils {
 
     private static Class[] primitiveTypes = {Double.class, Integer.class, Date.class, String.class, Long.class};
+    public static Usuario sessionUser;
 
     public static boolean isPrimitive(Field field) {
         Class clazz = field.getDeclaringClass();

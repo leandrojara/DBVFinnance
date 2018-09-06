@@ -31,6 +31,21 @@ public abstract class EntityBase implements Persistable {
         db.setFirestoreSettings(settings);
     }
 
+    public EntityBase(Map<String, Object> map){
+        this();
+        Field[] fields = getClass().getDeclaredFields();
+        for (final Field field : fields) {
+            field.setAccessible(true);
+            if (map.containsKey(field.getName())) {
+                try {
+                    field.set(this, map.get(field.getName()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public String getId() {
         return id;
     }

@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.com.leandrojara.dbv_finnance.R;
+import br.com.leandrojara.dbv_finnance.repository.UsuarioRepository;
+import br.com.leandrojara.dbv_finnance.util.Utils;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
@@ -83,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void esqueciSenha(final String email){
+    private void esqueciSenha(final String email) {
         boolean valid = true;
         if (TextUtils.isEmpty(email)) {
             mEmailField.setError(getString(R.string.obrigatorio));
@@ -119,6 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
                                 Log.d(TAG, "signInWithEmail:success");
+                                Utils.sessionUser = new UsuarioRepository().findById(mAuth.getCurrentUser().getUid());
                                 nextActivity();
                             } else {
                                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {

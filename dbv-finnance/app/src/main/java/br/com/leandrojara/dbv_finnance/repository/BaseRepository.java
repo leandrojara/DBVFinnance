@@ -1,7 +1,5 @@
 package br.com.leandrojara.dbv_finnance.repository;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
@@ -11,7 +9,7 @@ import br.com.leandrojara.dbv_finnance.model.base.EntityBase;
 
 public abstract class BaseRepository<T extends EntityBase> {
 
-    private final FirebaseFirestore db;
+    protected final FirebaseFirestore db;
 
     protected BaseRepository() {
         db = FirebaseFirestore.getInstance();
@@ -21,20 +19,14 @@ public abstract class BaseRepository<T extends EntityBase> {
         db.setFirestoreSettings(settings);
     }
 
-    public void getAll(OnCompleteListener onCompleteListener, OnFailureListener onFailureListener) {
+    protected String getCollectionName() {
         try {
-            EntityBase instance = getGeneric().newInstance();
-            db.collection(instance.getCollectionName()).get()
-                    .addOnCompleteListener(onCompleteListener)
-                    .addOnFailureListener(onFailureListener);
+            return ((EntityBase) ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]).newInstance()).getCollectionName();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    private Class<T> getGeneric() {
-        return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return null;
     }
 }
