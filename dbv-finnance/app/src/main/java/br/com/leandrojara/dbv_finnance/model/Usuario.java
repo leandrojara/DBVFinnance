@@ -13,6 +13,10 @@ public class Usuario extends EntityBase {
     private List<Role> roles;
     private List<Desbravador> desbravadores;
 
+    public Usuario() {
+        super();
+    }
+
     public Usuario(Map<String, Object> data) {
         super(data);
     }

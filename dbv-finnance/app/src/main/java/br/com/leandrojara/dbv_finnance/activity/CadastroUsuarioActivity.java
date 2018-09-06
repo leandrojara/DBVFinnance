@@ -59,7 +59,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity implements View.O
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Usuario usuario = new Usuario(documentSnapshot.getData());
+                Usuario usuario = new Usuario();
                 usuario.setNome(fieldName.getText().toString());
                 usuario.setEmail(fieldEmail.getText().toString());
                 usuario.setRoles(Arrays.asList(Role.RESPONSAVEL));
