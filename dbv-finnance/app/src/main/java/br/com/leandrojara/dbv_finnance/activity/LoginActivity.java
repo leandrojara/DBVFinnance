@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.com.leandrojara.dbv_finnance.R;
+import br.com.leandrojara.dbv_finnance.model.enums.Role;
 import br.com.leandrojara.dbv_finnance.repository.UsuarioRepository;
 import br.com.leandrojara.dbv_finnance.util.Utils;
 
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            Utils.sessionUser = new UsuarioRepository().findById(currentUser.getUid());
             nextActivity();
         }
     }
@@ -61,7 +63,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void nextActivity() {
-
+        if (Utils.sessionUser.getRoles().size() > 1) {
+            startActivity(new Intent(this, MultiRolesActivity.class));
+        } else if (Utils.sessionUser.getRoles().contains(Role.ADMINISTRADOR)) {
+            startActivity(new Intent(this, AdministradorActivity.class));
+        } else if (Utils.sessionUser.getRoles().contains(Role.DIRETOR)) {
+            startActivity(new Intent(this, DiretorActivity.class));
+        } else if (Utils.sessionUser.getRoles().contains(Role.TESOUREIRO)) {
+            startActivity(new Intent(this, TesoureiroActivity.class));
+        } else if (Utils.sessionUser.getRoles().contains(Role.RESPONSAVEL)) {
+            startActivity(new Intent(this, ResponsavelActivity.class));
+        }
     }
 
     private void trataAuthException(Exception ex) {

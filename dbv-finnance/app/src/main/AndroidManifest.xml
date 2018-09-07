@@ -20,7 +20,12 @@
                 android:name="firebase_crashlytics_collection_enabled"
                 android:value="false" />
         </activity>
-        <activity android:name=".activity.CadastroUsuarioActivity"></activity>
+        <activity android:name=".activity.CadastroUsuarioActivity" />
+        <activity android:name=".activity.MultiRolesActivity" />
+        <activity android:name=".activity.AdministradorActivity" />
+        <activity android:name=".activity.DiretorActivity" />
+        <activity android:name=".activity.TesoureiroActivity" />
+        <activity android:name=".activity.ResponsavelActivity"></activity>
     </application>
 
 </manifest>

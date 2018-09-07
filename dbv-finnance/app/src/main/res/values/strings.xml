@@ -22,4 +22,5 @@
     <string name="falha_autencicacao">Autenticação falhou.</string>
     <string name="senha_nao_confere">Senhas não conferem</string>
     <string name="cadastro_realizado">Cadastro realizado com sucesso</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
