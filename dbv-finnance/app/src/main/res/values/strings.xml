@@ -13,7 +13,7 @@
     <string name="email_nao_verificado">Verifique seu email para ativar seu cadastro</string>
     <string name="esqueci_minha_senha">Esqueci minha senha</string>
     <string name="erro_enviar_email">Ocorreu um erro ao enviar o email</string>
-    <string name="enviado_email_para">Foi enviado um email para </string>
+    <string name="enviado_email_para">Foi enviado um email para</string>
     <string name="obrigatorio">Obrigatório</string>
     <string name="usuario_ja_cadastrado">O usuário já foi cadastrado anteriormente no sistema.</string>
     <string name="senha_invalida">Insira uma senha de no mínimo 8 caracteres contendo letras e números.</string>
@@ -23,4 +23,10 @@
     <string name="senha_nao_confere">Senhas não conferem</string>
     <string name="cadastro_realizado">Cadastro realizado com sucesso</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="label_administrador">Administrador</string>
+    <string name="label_diretor">Diretor</string>
+    <string name="label_tesoureiro">Tesoureiro</string>
+    <string name="label_responsavel">Responsável</string>
+    <string name="multi_roles_title">Escolha o Tipo de Acesso</string>
 </resources>

@@ -76,27 +76,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void trataAuthException(Exception ex) {
-        try {
-            throw ex;
-        } catch (FirebaseAuthUserCollisionException e) {
-            Toast.makeText(LoginActivity.this, getString(R.string.usuario_ja_cadastrado),
-                    Toast.LENGTH_SHORT).show();
-        } catch (FirebaseAuthWeakPasswordException e) {
-            Toast.makeText(LoginActivity.this, getString(R.string.senha_invalida),
-                    Toast.LENGTH_SHORT).show();
-        } catch (FirebaseAuthInvalidCredentialsException e) {
-            Toast.makeText(LoginActivity.this, getString(R.string.email_senha_invalidos),
-                    Toast.LENGTH_SHORT).show();
-        } catch (FirebaseAuthEmailException e) {
-            Toast.makeText(LoginActivity.this, getString(R.string.email_invalido),
-                    Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(LoginActivity.this, getString(R.string.falha_autencicacao),
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void esqueciSenha(final String email) {
         boolean valid = true;
         if (TextUtils.isEmpty(email)) {
@@ -111,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, getString(R.string.enviado_email_para) + email, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.enviado_email_para) + " " + email, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(LoginActivity.this, getString(R.string.erro_enviar_email), Toast.LENGTH_LONG).show();
                     }
@@ -151,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            trataAuthException(task.getException());
+                            Utils.trataAuthException(LoginActivity.this, task.getException());
                         }
                     }
                 });

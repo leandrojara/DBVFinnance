@@ -1,12 +1,14 @@
 package br.com.leandrojara.dbv_finnance.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +18,7 @@ import java.util.Arrays;
 import br.com.leandrojara.dbv_finnance.R;
 import br.com.leandrojara.dbv_finnance.model.Usuario;
 import br.com.leandrojara.dbv_finnance.model.enums.Role;
+import br.com.leandrojara.dbv_finnance.util.Utils;
 
 public class CadastroUsuarioActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,20 +52,25 @@ public class CadastroUsuarioActivity extends AppCompatActivity implements View.O
 
         mAuth.createUserWithEmailAndPassword(fieldEmail.getText().toString(), fieldSenha.getText().toString())
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                Usuario usuario = new Usuario();
-                usuario.setNome(fieldName.getText().toString());
-                usuario.setEmail(fieldEmail.getText().toString());
-                usuario.setRoles(Arrays.asList(Role.RESPONSAVEL));
-                usuario.setId(authResult.getUser().getUid());
-                usuario.add(new OnSuccessListener() {
                     @Override
-                    public void onSuccess(Object o) {
-                        Toast.makeText(CadastroUsuarioActivity.this, getString(R.string.cadastro_realizado), Toast.LENGTH_SHORT).show();
-                        finish();
+                    public void onSuccess(AuthResult authResult) {
+                        Usuario usuario = new Usuario();
+                        usuario.setNome(fieldName.getText().toString());
+                        usuario.setEmail(fieldEmail.getText().toString());
+                        usuario.setRoles(Arrays.asList(Role.RESPONSAVEL));
+                        usuario.setId(authResult.getUser().getUid());
+                        usuario.add(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                Toast.makeText(CadastroUsuarioActivity.this, getString(R.string.cadastro_realizado), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }, null);
                     }
-                }, null);
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Utils.trataAuthException(CadastroUsuarioActivity.this, e);
             }
         });
     }
