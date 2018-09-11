@@ -11,6 +11,6 @@ public class TesoureiroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tesoureiro);
-        setTitle("TesoureiroActivity");
+        setTitle(R.string.label_tesoureiro);
     }
 }

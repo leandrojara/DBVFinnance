@@ -29,4 +29,8 @@
     <string name="label_tesoureiro">Tesoureiro</string>
     <string name="label_responsavel">Responsável</string>
     <string name="multi_roles_title">Escolha o Tipo de Acesso</string>
+
+    <string name="label_gerenciar_clube">Gerenciar Clubes</string>
+    <string name="label_clubes">Clubes</string>
+    <string name="label_sem_resultado">Não há resultados.</string>
 </resources>

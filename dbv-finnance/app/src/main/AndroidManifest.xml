@@ -25,7 +25,9 @@
         <activity android:name=".activity.AdministradorActivity" />
         <activity android:name=".activity.DiretorActivity" />
         <activity android:name=".activity.TesoureiroActivity" />
-        <activity android:name=".activity.ResponsavelActivity"></activity>
+        <activity android:name=".activity.ResponsavelActivity" />
+        <activity android:name=".activity.CadastroClubeActivity" />
+        <activity android:name=".activity.ListaClubesActivity"></activity>
     </application>
 
 </manifest>
