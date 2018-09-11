@@ -14,15 +14,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import javax.annotation.Nullable;
 
 import br.com.leandrojara.dbv_finnance.R;
+import br.com.leandrojara.dbv_finnance.model.Usuario;
 import br.com.leandrojara.dbv_finnance.model.enums.Role;
-import br.com.leandrojara.dbv_finnance.repository.UsuarioRepository;
 import br.com.leandrojara.dbv_finnance.util.Utils;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,11 +52,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            Utils.sessionUser = new UsuarioRepository().findById(currentUser.getUid());
-            nextActivity();
+        if (mAuth.getCurrentUser() != null) {
+            onUsuarioLogado();
         }
+    }
+
+    private void onUsuarioLogado() {
+        FirebaseFirestore.getInstance().collection(new Usuario().getCollectionName()).document(mAuth.getCurrentUser().getUid()).addSnapshotListener(LoginActivity.this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (documentSnapshot.exists()) {
+                    Utils.sessionUser = documentSnapshot.toObject(Usuario.class);
+                    Utils.sessionUser.setId(documentSnapshot.getId());
+                    nextActivity();
+                }
+            }
+        });
     }
 
     private void createAccount() {
@@ -112,8 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
                                 Log.d(TAG, "signInWithEmail:success");
-                                Utils.sessionUser = new UsuarioRepository().findById(mAuth.getCurrentUser().getUid());
-                                nextActivity();
+                                onUsuarioLogado();
                             } else {
                                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
