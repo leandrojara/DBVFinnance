@@ -87,7 +87,9 @@ public class CadastroClubeActivity extends AppCompatActivity {
                                     if (!queryDocumentSnapshots.isEmpty()) {
                                         List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
                                         for (DocumentSnapshot document : documents) {
-                                            adapterDiretor.add(document.toObject(Usuario.class));
+                                            Usuario usuario = document.toObject(Usuario.class);
+                                            usuario.setId(document.getId());
+                                            adapterDiretor.add(usuario);
                                         }
                                         adapterDiretor.notifyDataSetChanged();
                                     }
