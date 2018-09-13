@@ -57,4 +57,9 @@ public class Usuario extends EntityBase {
     public String getCollectionName() {
         return "usuarios";
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

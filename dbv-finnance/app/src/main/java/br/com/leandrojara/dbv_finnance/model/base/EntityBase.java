@@ -32,7 +32,7 @@ public abstract class EntityBase implements Persistable {
         db.setFirestoreSettings(settings);
     }
 
-    public EntityBase(Map<String, Object> map){
+    public EntityBase(Map<String, Object> map) {
         this();
         Field[] fields = getClass().getDeclaredFields();
         for (final Field field : fields) {
@@ -107,7 +107,7 @@ public abstract class EntityBase implements Persistable {
                                 persistentList.add(((EntityBase) object).getReference());
                             } else if (object instanceof Enum) {
                                 //se for uma lista de Enums
-                                persistentList.add(object.toString());
+                                persistentList.add(((Enum) object).name());
                             } else {
                                 //se não for uma lista de EntityBase nem de Enum
                                 persistentList.add(object);
@@ -116,7 +116,7 @@ public abstract class EntityBase implements Persistable {
                         //seta a lista de referencias
                         map.put(field.getName(), persistentList);
                     } else if (field.getType().isEnum()) { //se for um enum
-                        map.put(field.getName(), field.get(this).toString());
+                        map.put(field.getName(), ((Enum) field.get(this)).name());
                     } else { //se for de tipo primitivo: Double, Integer, Date...
                         map.put(field.getName(), field.get(this));
                     }

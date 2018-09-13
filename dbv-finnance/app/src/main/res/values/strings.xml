@@ -4,6 +4,7 @@
     <string name="sign_in">Entrar</string>
     <string name="create_account">Criar Cadastro</string>
     <string name="hint_name">Nome Completo</string>
+    <string name="hint_tipo_clube">Tipo do Clube</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Senha</string>
     <string name="hint_retype_password">Repita a senha</string>
@@ -33,4 +34,7 @@
     <string name="label_gerenciar_clube">Gerenciar Clubes</string>
     <string name="label_clubes">Clubes</string>
     <string name="label_sem_resultado">Não há resultados.</string>
+
+    <string name="title_cadastro_clube">Cadastro de Clube</string>
+    <string name="hint_name_clube">Nome do Clube</string>
 </resources>
