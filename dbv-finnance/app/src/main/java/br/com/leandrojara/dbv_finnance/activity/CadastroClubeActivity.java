@@ -13,9 +13,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -49,7 +49,6 @@ public class CadastroClubeActivity extends AppCompatActivity {
             clube = (Clube) savedInstanceState.get(KEY_CLUBE);
         } else {
             clube = new Clube();
-            clube.setTipo(TipoClube.DESBRAVADORES);
         }
 
         createTipoClube();
@@ -62,9 +61,6 @@ public class CadastroClubeActivity extends AppCompatActivity {
             diretor.setText(clube.getDiretor().getNome());
         }
 
-        adapterDiretor = new ArrayAdapter<Usuario>(CadastroClubeActivity.this, R.layout.simple_row_item, R.id.simple_row_item_view);
-        diretor.setAdapter(adapterDiretor);
-
         diretor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -73,31 +69,34 @@ public class CadastroClubeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
-                adapterDiretor.clear();
-                FirebaseFirestore.getInstance().collection(new Usuario().getCollectionName()).addSnapshotListener(CadastroClubeActivity.this, new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            Query query = queryDocumentSnapshots.getQuery();
-                            query.whereArrayContains("nome", charSequence.toString().trim());
-                            query.limit(6);
-                            query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                    if (!queryDocumentSnapshots.isEmpty()) {
-                                        List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-                                        for (DocumentSnapshot document : documents) {
-                                            Usuario usuario = document.toObject(Usuario.class);
-                                            usuario.setId(document.getId());
-                                            adapterDiretor.add(usuario);
-                                        }
-                                        adapterDiretor.notifyDataSetChanged();
+                if (charSequence.toString().trim().isEmpty()) {
+                    clube.setDiretor(null);
+                }
+
+                FirebaseFirestore.getInstance()
+                        .collection(new Usuario().getCollectionName())
+                        .whereArrayContains("nomeSplit", charSequence.toString().trim())
+                        .orderBy("nome")
+                        .limit(6)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                List<Usuario> usuarios = new ArrayList<>();
+                                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                                    List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                    for (DocumentSnapshot document : documents) {
+                                        Usuario usuario = document.toObject(Usuario.class);
+                                        usuario.setId(document.getId());
+                                        usuarios.add(usuario);
                                     }
                                 }
-                            });
-                        }
-                    }
-                });
+
+                                adapterDiretor = new ArrayAdapter<>(CadastroClubeActivity.this, R.layout.simple_row_item, R.id.simple_row_item_view);
+                                adapterDiretor.addAll(usuarios);
+                                diretor.setAdapter(adapterDiretor);
+                                adapterDiretor.notifyDataSetChanged();
+                            }
+                        });
             }
 
             @Override
@@ -106,15 +105,21 @@ public class CadastroClubeActivity extends AppCompatActivity {
             }
         });
 
-        diretor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        diretor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 clube.setDiretor((Usuario) adapterView.getSelectedItem());
             }
+        });
 
+        diretor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                clube.setDiretor(null);
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    if (clube.getDiretor() != null) {
+                        diretor.setText(clube.getDiretor().toString());
+                    }
+                }
             }
         });
     }
@@ -136,6 +141,10 @@ public class CadastroClubeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().trim().isEmpty()) {
+                    clube.setTipo(null);
+                }
+
                 adapterTipoClube.clear();
                 for (TipoClube tipo : TipoClube.values()) {
                     if (charSequence.toString().trim().isEmpty()) {
@@ -153,15 +162,21 @@ public class CadastroClubeActivity extends AppCompatActivity {
             }
         });
 
-        tipoClube.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tipoClube.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 clube.setTipo((TipoClube) adapterView.getSelectedItem());
             }
+        });
 
+        tipoClube.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                clube.setTipo(null);
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    if (clube.getTipo() != null) {
+                        tipoClube.setText(clube.getTipo().getDescricao());
+                    }
+                }
             }
         });
     }

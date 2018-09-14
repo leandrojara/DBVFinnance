@@ -1,5 +1,6 @@
 package br.com.leandrojara.dbv_finnance.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import br.com.leandrojara.dbv_finnance.model.enums.Role;
 public class Usuario extends EntityBase {
 
     private String nome;
+    private List<String> nomeSplit;
     private String email;
     private List<Role> roles;
     private List<Desbravador> desbravadores;
@@ -27,6 +29,12 @@ public class Usuario extends EntityBase {
 
     public void setNome(String nome) {
         this.nome = nome;
+        if (nome != null) {
+            this.nome = nome.trim().replaceAll("  ", " ");
+            setNomeSplit(Arrays.asList(this.nome.split(" ")));
+        } else {
+            setNomeSplit(null);
+        }
     }
 
     public String getEmail() {
@@ -51,6 +59,14 @@ public class Usuario extends EntityBase {
 
     public void setDesbravadores(List<Desbravador> desbravadores) {
         this.desbravadores = desbravadores;
+    }
+
+    public List<String> getNomeSplit() {
+        return nomeSplit;
+    }
+
+    public void setNomeSplit(List<String> nomeSplit) {
+        this.nomeSplit = nomeSplit;
     }
 
     @Override

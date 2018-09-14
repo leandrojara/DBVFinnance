@@ -44,7 +44,7 @@
             android:id="@+id/diretor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_tipo_clube"
+            android:hint="@string/hint_diretor"
             android:completionThreshold="1"
             android:inputType="textCapWords" />
 
@@ -59,7 +59,7 @@
             android:id="@+id/tesoureiro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_tipo_clube"
+            android:hint="@string/hint_tesoureiro"
             android:completionThreshold="1"
             android:inputType="textCapWords" />
 

@@ -37,4 +37,6 @@
 
     <string name="title_cadastro_clube">Cadastro de Clube</string>
     <string name="hint_name_clube">Nome do Clube</string>
+    <string name="hint_diretor">Diretor(a) do Clube</string>
+    <string name="hint_tesoureiro">Tesoureiro(a) do Clube</string>
 </resources>
