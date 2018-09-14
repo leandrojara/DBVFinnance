@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -32,13 +31,17 @@ public class SearchDialog<T> extends Dialog {
 
     private ListView listViewSearchDialog;
     private EditText editTextSearchDialog;
+    private final Class<T> clazz;
 
-
-    public SearchDialog(@NonNull final Context context, String title, final String collectionName, final String searchField) {
+    public SearchDialog(@NonNull final Context context, String title, final String collectionName, final String searchField, final Class<T> clazz) {
         super(context);
+        this.clazz = clazz;
 
         setContentView(R.layout.search_dialog);
         setTitle(title);
+
+        listViewSearchDialog = findViewById(R.id.listViewSearchDialog);
+        listViewSearchDialog.setEmptyView(findViewById(R.id.empty_text_view));
 
         editTextSearchDialog = findViewById(R.id.editTextSearchDialog);
         editTextSearchDialog.addTextChangedListener(new TextWatcher() {
@@ -64,7 +67,7 @@ public class SearchDialog<T> extends Dialog {
                         if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot document : documents) {
-                                T obj = document.toObject(getClazz());
+                                T obj = document.toObject(clazz);
                                 setId(obj, document.getId());
                                 list.add(obj);
                             }
@@ -83,18 +86,10 @@ public class SearchDialog<T> extends Dialog {
 
             }
         });
-
-        listViewSearchDialog = findViewById(R.id.listViewSearchDialog);
-        listViewSearchDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //TODO: fazer uma forma de quem estiver usando esse objeto, interceptar este evento
-            }
-        });
     }
 
     private void setId(T obj, String id) {
-        Method[] methods = getClazz().getMethods();
+        Method[] methods = clazz.getMethods();
         for (Method method : methods) {
             if (method.getName().equals("setId")) {
                 try {
@@ -108,7 +103,9 @@ public class SearchDialog<T> extends Dialog {
         }
     }
 
-    private Class<T> getClazz() {
-        return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    public void addOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        if (onItemClickListener != null) {
+            listViewSearchDialog.setOnItemClickListener(onItemClickListener);
+        }
     }
 }
