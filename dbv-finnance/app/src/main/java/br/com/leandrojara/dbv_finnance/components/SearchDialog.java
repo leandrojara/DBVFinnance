@@ -19,7 +19,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +51,15 @@ public class SearchDialog<T> extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Query query = FirebaseFirestore.getInstance().collection(collectionName).limit(6);
+                Query query = FirebaseFirestore.getInstance().collection(collectionName);
                 if (!charSequence.toString().trim().isEmpty()) {
-                    String[] split = charSequence.toString().trim().replaceAll("  ", " ").split(" ");
-                    for (String queryStr : split) {
-                        query.whereArrayContains(searchField, queryStr);
-                    }
+                    query.orderBy("nome").limit(6).startAt(charSequence.toString().trim());
+//                    String[] split = charSequence.toString().trim().replaceAll("  ", " ").split(" ");
+//                    for (String queryStr : split) {
+//                        query.whereArrayContains(searchField, queryStr);
+//                    }
+                } else {
+                    query.orderBy("nome").limit(6);
                 }
 
                 query.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -107,5 +109,9 @@ public class SearchDialog<T> extends Dialog {
         if (onItemClickListener != null) {
             listViewSearchDialog.setOnItemClickListener(onItemClickListener);
         }
+    }
+
+    public void search(String search) {
+        editTextSearchDialog.setText(search);
     }
 }

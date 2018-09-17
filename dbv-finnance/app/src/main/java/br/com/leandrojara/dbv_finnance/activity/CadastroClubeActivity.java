@@ -9,18 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import br.com.leandrojara.dbv_finnance.R;
+import br.com.leandrojara.dbv_finnance.components.EditTextSearch;
 import br.com.leandrojara.dbv_finnance.model.Clube;
 import br.com.leandrojara.dbv_finnance.model.Usuario;
 import br.com.leandrojara.dbv_finnance.model.enums.TipoClube;
@@ -30,11 +20,7 @@ public class CadastroClubeActivity extends AppCompatActivity {
     private ArrayAdapter<TipoClube> adapterTipoClube;
     private AutoCompleteTextView tipoClube;
 
-    private ArrayAdapter<Usuario> adapterDiretor;
-    private AutoCompleteTextView diretor;
-
-    private ArrayAdapter<Usuario> adapterTesoureiro;
-    private AutoCompleteTextView tesoureiro;
+    private EditTextSearch<Usuario> diretor;
 
     public static final String KEY_CLUBE = "keyClube";
     private Clube clube;
@@ -57,71 +43,11 @@ public class CadastroClubeActivity extends AppCompatActivity {
 
     private void createDiretor() {
         diretor = findViewById(R.id.diretor);
-        if (clube.getDiretor() != null) {
-            diretor.setText(clube.getDiretor().getNome());
-        }
-
-        diretor.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().trim().isEmpty()) {
-                    clube.setDiretor(null);
-                }
-
-                FirebaseFirestore.getInstance()
-                        .collection(new Usuario().getCollectionName())
-                        .whereArrayContains("nomeSplit", charSequence.toString().trim())
-                        .orderBy("nome")
-                        .limit(6)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                List<Usuario> usuarios = new ArrayList<>();
-                                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                                    List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-                                    for (DocumentSnapshot document : documents) {
-                                        Usuario usuario = document.toObject(Usuario.class);
-                                        usuario.setId(document.getId());
-                                        usuarios.add(usuario);
-                                    }
-                                }
-
-                                adapterDiretor = new ArrayAdapter<>(CadastroClubeActivity.this, R.layout.simple_row_item, R.id.simple_row_item_view);
-                                adapterDiretor.addAll(usuarios);
-                                diretor.setAdapter(adapterDiretor);
-                                adapterDiretor.notifyDataSetChanged();
-                            }
-                        });
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        diretor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                clube.setDiretor((Usuario) adapterView.getSelectedItem());
-            }
-        });
-
-        diretor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    if (clube.getDiretor() != null) {
-                        diretor.setText(clube.getDiretor().toString());
-                    }
-                }
-            }
-        });
+        diretor.setValue(clube.getDiretor());
+        diretor.setTitle(getString(R.string.label_diretor));
+        diretor.setCollectionName(new Usuario().getCollectionName());
+        diretor.setSearchField("nomeSplit");
+        diretor.setClazz(Usuario.class);
     }
 
     private void createTipoClube() {

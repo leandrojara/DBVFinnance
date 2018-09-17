@@ -10,7 +10,8 @@
         android:maxLines="1"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="start">
+        android:gravity="start"
+        android:inputType="textCapWords">
     </EditText>
 
     <ListView android:id="@+id/listViewSearchDialog"
