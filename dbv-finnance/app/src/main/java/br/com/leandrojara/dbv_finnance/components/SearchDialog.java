@@ -51,15 +51,9 @@ public class SearchDialog<T> extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Query query = FirebaseFirestore.getInstance().collection(collectionName);
+                Query query = FirebaseFirestore.getInstance().collection(collectionName).limit(6).orderBy("nome");
                 if (!charSequence.toString().trim().isEmpty()) {
-                    query.orderBy("nome").limit(6).startAt(charSequence.toString().trim());
-//                    String[] split = charSequence.toString().trim().replaceAll("  ", " ").split(" ");
-//                    for (String queryStr : split) {
-//                        query.whereArrayContains(searchField, queryStr);
-//                    }
-                } else {
-                    query.orderBy("nome").limit(6);
+                    query.whereGreaterThanOrEqualTo("nome", charSequence.toString().trim());
                 }
 
                 query.addSnapshotListener(new EventListener<QuerySnapshot>() {
